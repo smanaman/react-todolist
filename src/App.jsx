@@ -6,14 +6,14 @@ function App() {
   const [record, setrecord] = useState([])
   const [edit, setedit] = useState("")
 
-  const underRefs = useRef({}); 
+  const underRefs = useRef({});
 
   const handleLine = (id, color) => {
-    
+
     if (underRefs.current[id]) {
       underRefs.current[id].style.backgroundColor = color;
-    
-      
+
+
     }
   };
 
@@ -70,25 +70,25 @@ function App() {
   return (
     <>
       <div className="main">
-        <h2>To-Do List</h2>
+        <h2 className='h2'>To-Do List</h2>
         <form onSubmit={handlesubmit}>
           <input type="text" placeholder='Enter your task' value={list} onChange={(event) => setlist(event.target.value)} />
           <button className='btn' type='submit'>submit</button>
 
 
         </form>
+          <div className="main-span">
         {
           record.map((val) => {
             return (
+            
               <div className='span-task'>
                 <div className="round"></div>
-                <div
-            className="span"
-            ref={(el) => (underRefs.current[val.taskid] = el)}>
-            <div onClick={() => handleLine(val.taskid, 'red')} className="text">
-              <span>{val.task}</span>
-            </div>
-                  <div className="d-btn"> 
+                <div className="span" ref={(el) => (underRefs.current[val.taskid] = el)}>
+                  <div onClick={() => handleLine(val.taskid, 'red')} className="text">
+                    <span>{val.task}</span>
+                  </div>
+                  <div className="d-btn">
                     <button onClick={() => ddata(val?.taskid)} className='click-btn'><i class="fa-solid fa-trash"></i></button>
                   </div>
                   <div className="a-btn">
@@ -99,9 +99,11 @@ function App() {
 
 
               </div>
+            
             )
           })
         }
+          </div>
       </div>
 
     </>

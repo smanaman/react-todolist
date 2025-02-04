@@ -38,6 +38,14 @@ input:focus{
     border: 1px solid black; 
     background-color: white;
     padding: 10px;
+    border-radius: 20px;
+
+}
+
+.h2{
+    text-align: center;
+    font-size: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .btn{
     width: 120px;
@@ -51,6 +59,25 @@ input:focus{
     color: white;
     font-size: 20px;
     font-weight: 600;
+}
+.main-span{
+    width: 100%;
+    height: 470px;
+    /* border: 1px solid black; */
+    overflow: hidden;
+    overflow-y: scroll;
+}
+/* .main-span::-webkit-scrollbar{
+    display: none;
+} */
+.main-span::-webkit-scrollbar {
+    width: 5px;
+    color: transparent;
+}
+
+.main-span::-webkit-scrollbar-thumb {
+    background: red;
+    border-radius: 10px;
 }
 .span-task{
     width: 400px;
