@@ -1,27 +1,28 @@
 import { useState } from 'react'
-import { useRef } from 'react'
 import './App.css'
 function App() {
   const [list, setlist] = useState("")
-  const [record, setrecord] = useState([])
+  const [record, setrecord] = useState(JSON.parse(localStorage.getItem('todo')) || [])
   const [edit, setedit] = useState("")
 
-  const underRefs = useRef({});
-
-  const handleLine = (id, color) => {
-
-    if (underRefs.current[id]) {
-      underRefs.current[id].style.backgroundColor = color;
 
 
-    }
-  };
+
 
   console.log(record);
 
   const handlesubmit = (event) => {
     event.preventDefault()
 
+    let dup = record.filter((val)=>{
+      return val.task == list
+})
+
+  
+if(dup.length == 1){
+  alert("Task already exist")
+  return false;
+}
 
     let obj = {
       taskid: Math.floor(Math.random() * 100),
@@ -36,16 +37,19 @@ function App() {
         return val;
       })
       setrecord(up);
+      localStorage.setItem('todo', JSON.stringify(up));
       alert("record edit")
       setedit("")
       setlist("")
     }
     else {
-      if (obj.task == '') {
+      if (obj.task == '' || obj.task[0]==' ') {
         alert('Enter task')
       }
       else {
-        setrecord([...record, obj]);
+        let newdata = [...record, obj]
+        setrecord(newdata);
+        localStorage.setItem('todo', JSON.stringify(newdata));
         console.log(obj);
         setlist("");
       }
@@ -53,6 +57,8 @@ function App() {
   }
   const ddata = (id) => {
     let del = record.filter(val => val.taskid != id)
+    localStorage.setItem('todo', JSON.stringify(del));
+
     setrecord(del)
   }
   const editrecord = (id) => {
@@ -62,7 +68,11 @@ function App() {
     setlist(single[0]?.task);
   }
 
-
+  // const clearAll = () => {
+  //   setRecord([]);
+  //   localStorage.setItem('todo',JSON.stringify([]));
+  //   alert("Delete All record");
+  // }
 
 
 
@@ -77,33 +87,33 @@ function App() {
 
 
         </form>
-          <div className="main-span">
-        {
-          record.map((val) => {
-            return (
-            
-              <div className='span-task'>
-                <div className="round"></div>
-                <div className="span" ref={(el) => (underRefs.current[val.taskid] = el)}>
-                  <div onClick={() => handleLine(val.taskid, 'red')} className="text">
-                    <span>{val.task}</span>
+        <div className="main-span">
+          {
+            record.map((val) => {
+              return (
+
+                <div className='span-task'>
+                  <div className="round"></div>
+                  <div className="span">
+                    <div className="text">
+                      <span>{val.task}</span>
+                    </div>
+                    <div className="d-btn">
+                      <button onClick={() => ddata(val?.taskid)} className='click-btn'><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div className="a-btn">
+                      <button onClick={() => editrecord(val?.taskid)} className='click-btn'><i class="fa-solid fa-pen-to-square"></i></button>
+                    </div>
+
                   </div>
-                  <div className="d-btn">
-                    <button onClick={() => ddata(val?.taskid)} className='click-btn'><i class="fa-solid fa-trash"></i></button>
-                  </div>
-                  <div className="a-btn">
-                    <button onClick={() => editrecord(val?.taskid)} className='click-btn'><i class="fa-solid fa-pen-to-square"></i></button>
-                  </div>
+
 
                 </div>
 
-
-              </div>
-            
-            )
-          })
-        }
-          </div>
+              )
+            })
+          }
+        </div>
       </div>
 
     </>
